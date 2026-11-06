@@ -1,0 +1,65 @@
+<div class="shell">
+  <aside class="sidebar" [class.abierto]="menuAbierto()">
+    <div class="marca">
+      <div class="logo">TM</div>
+      <div class="marca-texto">
+        <span class="marca-titulo">Taller Mecanico</span>
+        <span class="marca-sub">Gestion integral</span>
+      </div>
+    </div>
+
+    <nav class="nav">
+      @for (grupo of grupos; track grupo.titulo) {
+        <p class="grupo">{{ grupo.titulo }}</p>
+        @for (enlace of grupo.enlaces; track enlace.ruta) {
+          <a
+            class="enlace"
+            [routerLink]="enlace.ruta"
+            routerLinkActive="activo"
+            (click)="menuAbierto.set(false)"
+          >
+            <span class="punto"></span>
+            {{ enlace.etiqueta }}
+          </a>
+        }
+      }
+    </nav>
+
+    <div class="pie">
+      <p>Backend Spring Boot</p>
+      <p class="pie-suave">API v1.0 · MySQL</p>
+    </div>
+  </aside>
+
+  @if (menuAbierto()) {
+    <div class="velo" (click)="menuAbierto.set(false)"></div>
+  }
+
+  <div class="contenido">
+    <header class="topbar">
+      <button class="hamburguesa" type="button" (click)="menuAbierto.set(true)" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="topbar-fecha">
+        <span class="fecha-etiqueta">Hoy</span>
+        <span>{{ hoy }}</span>
+      </div>
+
+      <div class="usuario">
+        <div class="avatar">{{ iniciales() }}</div>
+        <div class="usuario-datos">
+          <span class="usuario-nombre">{{ auth.usuario()?.nombreCompleto }}</span>
+          <span class="usuario-rol">{{ auth.usuario()?.rol }}</span>
+        </div>
+        <button class="btn btn-secondary btn-sm" type="button" (click)="cerrarSesion()">
+          Salir
+        </button>
+      </div>
+    </header>
+
+    <main class="main">
+      <router-outlet />
+    </main>
+  </div>
+</div>
