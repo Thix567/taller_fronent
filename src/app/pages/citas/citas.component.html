@@ -84,6 +84,11 @@
                 </td>
                 <td>
                   <div class="acciones">
+                    @if (!cita.informeId && cita.estadoCita !== 'CANCELADA') {
+                      <button class="btn btn-primary btn-sm" type="button" (click)="abrirConversion(cita)">
+                        Convertir a orden
+                      </button>
+                    }
                     @if (cita.estadoCita === 'PENDIENTE') {
                       <button class="btn btn-ghost btn-sm" type="button" (click)="confirmar(cita)">
                         Confirmar
@@ -99,7 +104,13 @@
                         Eliminar
                       </button>
                     } @else {
-                      <span class="badge badge--entregado">Convertida</span>
+                      <a
+                        class="badge badge--entregado badge-link"
+                        [routerLink]="['/ordenes', cita.informeId]"
+                        title="Ver la orden de trabajo"
+                      >
+                        Convertida
+                      </a>
                     }
                   </div>
                 </td>
@@ -188,6 +199,123 @@
               <span class="spinner"></span>
             }
             Registrar cita
+          </button>
+        </footer>
+      </form>
+    </div>
+  </div>
+}
+
+@if (modalConversion()) {
+  <div class="modal-backdrop" (click)="cerrarConversion()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <header class="modal-header">
+        <div>
+          <h2 class="modal-title">Convertir cita a orden</h2>
+          @if (citaAConvertir(); as cita) {
+            <p class="modal-subtitulo">
+              {{ cita.placa }} &middot; {{ cita.marcaModelo }} &middot; {{ cita.clienteNombre }}
+            </p>
+          }
+        </div>
+        <button class="icon-btn" type="button" (click)="cerrarConversion()" aria-label="Cerrar">
+          &times;
+        </button>
+      </header>
+
+      <form [formGroup]="formularioConversion" (ngSubmit)="convertir()" novalidate>
+        <div class="modal-body">
+          @if (errorConversion()) {
+            <div class="alert alert-error">{{ errorConversion() }}</div>
+          }
+
+          @if (mecanicos().length === 0) {
+            <div class="alert alert-error">
+              No hay mecanicos activos. Registre uno en la seccion Mecanicos antes de convertir la cita.
+            </div>
+          }
+
+          <p class="muted conversion-nota">
+            Se creara la orden con el paquete
+            <strong>{{ citaAConvertir()?.paqueteNombre }}</strong> y su checklist de 19 puntos.
+          </p>
+
+          <div class="form-grid form-grid--2">
+            <div class="field">
+              <label for="mecanicoId">Mecanico responsable</label>
+              <select id="mecanicoId" class="select" formControlName="mecanicoId">
+                <option [value]="0" disabled>Seleccione un mecanico</option>
+                @for (mecanico of mecanicos(); track mecanico.id) {
+                  <option [value]="mecanico.id">{{ mecanico.nombreCompleto }}</option>
+                }
+              </select>
+              @if (
+                formularioConversion.controls.mecanicoId.touched &&
+                formularioConversion.controls.mecanicoId.invalid
+              ) {
+                <p class="field-error">Seleccione el mecanico responsable.</p>
+              }
+            </div>
+
+            <div class="field">
+              <label for="kilometrajeIngreso">Kilometraje de ingreso</label>
+              <input
+                id="kilometrajeIngreso"
+                class="input"
+                type="number"
+                min="0"
+                formControlName="kilometrajeIngreso"
+              />
+              @if (
+                formularioConversion.controls.kilometrajeIngreso.touched &&
+                formularioConversion.controls.kilometrajeIngreso.invalid
+              ) {
+                <p class="field-error">Ingrese un kilometraje valido.</p>
+              }
+            </div>
+
+            <div class="field">
+              <label for="nivelCombustible">Nivel de combustible</label>
+              <select id="nivelCombustible" class="select" formControlName="nivelCombustible">
+                @for (nivel of niveles; track nivel.valor) {
+                  <option [value]="nivel.valor">{{ nivel.etiqueta }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="field campo-ancho">
+              <label for="inventarioRecepcion">Inventario de recepcion</label>
+              <textarea
+                id="inventarioRecepcion"
+                class="textarea"
+                formControlName="inventarioRecepcion"
+                placeholder="Documentos, llave de repuesto, triangulo, herramientas..."
+              ></textarea>
+            </div>
+
+            <div class="field campo-ancho">
+              <label for="observacionesRecepcion">Observaciones de recepcion</label>
+              <textarea
+                id="observacionesRecepcion"
+                class="textarea"
+                formControlName="observacionesRecepcion"
+                placeholder="Estado general, golpes, detalles entregados por el cliente..."
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <footer class="modal-footer">
+          <button class="btn btn-secondary" type="button" (click)="cerrarConversion()">Cancelar</button>
+          <button
+            class="btn btn-primary"
+            type="submit"
+            [disabled]="convirtiendo() || mecanicos().length === 0"
+          >
+            @if (convirtiendo()) {
+              <span class="spinner"></span>
+            }
+            Convertir y abrir orden
           </button>
         </footer>
       </form>

@@ -173,6 +173,16 @@ export interface CitaPayload {
   observaciones?: string;
 }
 
+export type NivelCombustible = 'RESERVA' | 'CUARTO' | 'MEDIO' | 'TRES_CUARTOS' | 'LLENO';
+
+export interface ConvertirCitaPayload {
+  mecanicoId: number;
+  kilometrajeIngreso: number;
+  nivelCombustible: NivelCombustible;
+  inventarioRecepcion?: string;
+  observacionesRecepcion?: string;
+}
+
 export type EstadoInforme =
   | 'RECEPCIONADO'
   | 'EN_PROCESO'
@@ -234,7 +244,7 @@ export interface InformeDetalle {
   fechaProximoServicio: string;
   estado: EstadoInforme;
   citaId?: number | null;
-  nivelCombustible: string;
+  nivelCombustible: NivelCombustible;
   kilometrajeIngreso: number;
   kilometrajeProximoServicio: number;
   inventarioRecepcion?: string | null;

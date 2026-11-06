@@ -12,6 +12,7 @@ import {
   ClientePayload,
   ConfiguracionTaller,
   Consumo,
+  ConvertirCitaPayload,
   Dashboard,
   EstadoCita,
   EstadoInforme,
@@ -182,6 +183,10 @@ export class TallerService {
 
   cambiarEstadoCita(id: number, estadoCita: EstadoCita): Observable<Cita> {
     return this.http.patch<Cita>(`${API_URL}/citas/${id}/estado`, { estadoCita });
+  }
+
+  convertirCita(id: number, datos: ConvertirCitaPayload): Observable<InformeDetalle> {
+    return this.http.post<InformeDetalle>(`${API_URL}/citas/${id}/convertir`, datos);
   }
 
   eliminarCita(id: number): Observable<void> {

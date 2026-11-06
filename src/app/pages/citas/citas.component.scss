@@ -15,6 +15,21 @@
   flex-wrap: wrap;
 }
 
+.badge-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-subtitulo {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.conversion-nota {
+  margin: 0 0 14px;
+}
+
 .aviso {
   position: fixed;
   right: 22px;
