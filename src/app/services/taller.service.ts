@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import {
   Adicional,
+  AdicionalPayload,
   CategoriaInsumo,
   Cita,
   CitaPayload,
@@ -14,6 +15,7 @@ import {
   Consumo,
   ConvertirCitaPayload,
   Dashboard,
+  EscaneosPayload,
   EstadoCita,
   EstadoInforme,
   HistorialPlaca,
@@ -26,6 +28,7 @@ import {
   Paquete,
   PaquetePayload,
   Pago,
+  PagoPayload,
   ProductividadMecanico,
   Recordatorio,
   Vehiculo,
@@ -213,6 +216,10 @@ export class TallerService {
     return this.http.patch<InformeDetalle>(`${API_URL}/informes/${id}/estado`, { estado });
   }
 
+  actualizarEscaneos(id: number, datos: EscaneosPayload): Observable<InformeDetalle> {
+    return this.http.patch<InformeDetalle>(`${API_URL}/informes/${id}/escaneos`, datos);
+  }
+
   actualizarChecklist(
     informeId: number,
     detalleId: number,
@@ -233,25 +240,33 @@ export class TallerService {
     });
   }
 
-  registrarAdicional(
-    informeId: number,
-    datos: {
-      descripcion: string;
-      tipo: string;
-      cantidad: number;
-      precioUnitario: number;
-      aprobadoPorCliente: boolean;
-      cobraArandela: boolean;
-    },
-  ): Observable<Adicional> {
+  eliminarConsumo(id: number): Observable<void> {
+    return this.http.delete<void>(`${API_URL}/consumos/${id}`);
+  }
+
+  registrarAdicional(informeId: number, datos: AdicionalPayload): Observable<Adicional> {
     return this.http.post<Adicional>(`${API_URL}/informes/${informeId}/adicionales`, datos);
   }
 
-  registrarPago(
-    informeId: number,
-    datos: { monto: number; tipoPago: string; medioPago: string; referencia?: string },
-  ): Observable<Pago> {
+  actualizarAdicional(id: number, datos: AdicionalPayload): Observable<Adicional> {
+    return this.http.put<Adicional>(`${API_URL}/adicionales/${id}`, datos);
+  }
+
+  cambiarAprobacionAdicional(id: number, aprobado: boolean): Observable<Adicional> {
+    const params = new HttpParams().set('aprobado', aprobado);
+    return this.http.patch<Adicional>(`${API_URL}/adicionales/${id}/aprobacion`, null, { params });
+  }
+
+  eliminarAdicional(id: number): Observable<void> {
+    return this.http.delete<void>(`${API_URL}/adicionales/${id}`);
+  }
+
+  registrarPago(informeId: number, datos: PagoPayload): Observable<Pago> {
     return this.http.post<Pago>(`${API_URL}/informes/${informeId}/pagos`, datos);
+  }
+
+  eliminarPago(id: number): Observable<void> {
+    return this.http.delete<void>(`${API_URL}/pagos/${id}`);
   }
 
   reporte(informeId: number): Observable<unknown> {

@@ -140,3 +140,96 @@
   box-shadow: var(--sombra-alta);
   font-weight: 600;
 }
+
+.campo-ancho {
+  grid-column: 1 / -1;
+}
+
+.derecha {
+  text-align: right;
+}
+
+.modal-subtitulo {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.card-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.acciones {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.escaneos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.escaneo-bloque {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.escaneo-titulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.escaneo-bloque pre {
+  margin: 0;
+  padding: 10px 12px;
+  max-height: 220px;
+  overflow: auto;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-sm);
+  background: var(--fondo-suave);
+  font-family: 'Cascadia Code', 'Consolas', monospace;
+  font-size: 12px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.empty--inline {
+  margin: 0;
+  padding: 12px;
+  text-align: left;
+  border: 1px dashed var(--linea);
+  border-radius: var(--radio-sm);
+}
+
+.check-field {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.check-field input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--marca);
+  flex: 0 0 auto;
+}
+
+.obligatorio {
+  color: var(--rojo);
+  font-size: 11px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+

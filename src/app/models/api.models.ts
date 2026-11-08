@@ -278,10 +278,12 @@ export interface Consumo {
   subtotal: number;
 }
 
+export type TipoAdicional = 'REPUESTO' | 'MANO_OBRA';
+
 export interface Adicional {
   id: number;
   descripcion: string;
-  tipo: string;
+  tipo: TipoAdicional;
   cantidad: number;
   precioUnitario: number;
   subtotal: number;
@@ -290,13 +292,37 @@ export interface Adicional {
   seCobra: boolean;
 }
 
+export interface AdicionalPayload {
+  descripcion: string;
+  tipo: TipoAdicional;
+  cantidad: number;
+  precioUnitario: number;
+  aprobadoPorCliente: boolean;
+  cobraArandela: boolean;
+}
+
+export type TipoPago = 'ADELANTO' | 'LIQUIDACION';
+export type MedioPago = 'EFECTIVO' | 'YAPE_PLIN' | 'TRANSFERENCIA' | 'TARJETA';
+
 export interface Pago {
   id: number;
   fechaPago: string;
   monto: number;
-  tipoPago: string;
-  medioPago: string;
+  tipoPago: TipoPago;
+  medioPago: MedioPago;
   referencia?: string | null;
+}
+
+export interface PagoPayload {
+  monto: number;
+  tipoPago: TipoPago;
+  medioPago: MedioPago;
+  referencia?: string;
+}
+
+export interface EscaneosPayload {
+  escaneoInicialResultado?: string;
+  escaneoFinalResultado?: string;
 }
 
 export interface Evidencia {
