@@ -1,5 +1,5 @@
 // En desarrollo (ng serve en 4200) apunta al backend en 8080.
-// En el modo demo el frontend se sirve desde el mismo backend, asi que usa el mismo origen.
+// Si el frontend se sirve desde el mismo backend, usa el mismo origen.
 const host =
   typeof window !== 'undefined' && window.location.port === '4200'
     ? 'http://localhost:8080'

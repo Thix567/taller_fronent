@@ -178,27 +178,6 @@ form {
   font-size: 14px;
 }
 
-.demo {
-  margin-top: 22px;
-  padding: 12px 14px;
-  border-radius: var(--radio-sm);
-  background: var(--fondo-suave);
-  border: 1px dashed var(--linea-fuerte);
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.demo-titulo {
-  font-weight: 700;
-  color: var(--tinta-suave);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 10px;
-}
-
 .legal {
   color: var(--muted);
   font-size: 11px;
